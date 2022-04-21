@@ -1,10 +1,4 @@
 class Message < ApplicationRecord
-def change
-    create_table :messages do |t|
-      t.string :content
-      t.references :user, null: false, foreign_key: true
-
-      t.timestamps
-    end
-  end
+  belongs_to :chatroom
+  belongs_to :user
 end
