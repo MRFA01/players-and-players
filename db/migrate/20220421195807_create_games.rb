@@ -6,7 +6,6 @@ class CreateGames < ActiveRecord::Migration[6.0]
       t.string :summary
       t.string :category
       t.string :thumbnail
-      t.references :platform, null: false, foreign_key: true
 
       t.timestamps
     end
