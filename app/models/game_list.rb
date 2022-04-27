@@ -1,0 +1,2 @@
+class GameList < ApplicationRecord
+end
