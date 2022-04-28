@@ -10,10 +10,79 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_21_193131) do
+ActiveRecord::Schema.define(version: 2022_04_27_093249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.string "name"
+    t.string "string"
+    t.bigint "game_session_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_session_id"], name: "index_chatrooms_on_game_session_id"
+  end
+
+  create_table "game_list_games", force: :cascade do |t|
+    t.bigint "games_list_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_game_list_games_on_game_id"
+    t.index ["games_list_id"], name: "index_game_list_games_on_games_list_id"
+  end
+
+  create_table "game_session_lists", force: :cascade do |t|
+    t.boolean "subscribe", default: false
+    t.bigint "user_id", null: false
+    t.bigint "game_session_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_session_id"], name: "index_game_session_lists_on_game_session_id"
+    t.index ["user_id"], name: "index_game_session_lists_on_user_id"
+  end
+
+  create_table "game_sessions", force: :cascade do |t|
+    t.string "description"
+    t.date "date"
+    t.time "time"
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_game_sessions_on_game_id"
+    t.index ["user_id"], name: "index_game_sessions_on_user_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string "name"
+    t.string "controller"
+    t.string "summary"
+    t.string "category"
+    t.string "thumbnail"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "games_lists", force: :cascade do |t|
+    t.string "name"
+    t.string "category"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_games_lists_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id", null: false
+    t.bigint "chatroom_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["chatroom_id"], name: "index_messages_on_chatroom_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -27,4 +96,14 @@ ActiveRecord::Schema.define(version: 2022_04_21_193131) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "chatrooms", "game_sessions"
+  add_foreign_key "game_list_games", "games"
+  add_foreign_key "game_list_games", "games_lists"
+  add_foreign_key "game_session_lists", "game_sessions"
+  add_foreign_key "game_session_lists", "users"
+  add_foreign_key "game_sessions", "games"
+  add_foreign_key "game_sessions", "users"
+  add_foreign_key "games_lists", "users"
+  add_foreign_key "messages", "chatrooms"
+  add_foreign_key "messages", "users"
 end
