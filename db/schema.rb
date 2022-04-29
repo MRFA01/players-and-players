@@ -24,25 +24,6 @@ ActiveRecord::Schema.define(version: 2022_04_27_093249) do
     t.index ["game_session_id"], name: "index_chatrooms_on_game_session_id"
   end
 
-  create_table "game_list_games", force: :cascade do |t|
-    t.bigint "games_list_id", null: false
-    t.bigint "game_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["game_id"], name: "index_game_list_games_on_game_id"
-    t.index ["games_list_id"], name: "index_game_list_games_on_games_list_id"
-  end
-
-  create_table "game_session_lists", force: :cascade do |t|
-    t.boolean "subscribe", default: false
-    t.bigint "user_id", null: false
-    t.bigint "game_session_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["game_session_id"], name: "index_game_session_lists_on_game_session_id"
-    t.index ["user_id"], name: "index_game_session_lists_on_user_id"
-  end
-
   create_table "game_sessions", force: :cascade do |t|
     t.string "description"
     t.date "date"
@@ -65,6 +46,15 @@ ActiveRecord::Schema.define(version: 2022_04_27_093249) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "games_list_game", force: :cascade do |t|
+    t.bigint "games_list_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_games_list_game_on_game_id"
+    t.index ["games_list_id"], name: "index_games_list_game_on_games_list_id"
+  end
+
   create_table "games_lists", force: :cascade do |t|
     t.string "name"
     t.string "category"
@@ -72,6 +62,16 @@ ActiveRecord::Schema.define(version: 2022_04_27_093249) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_games_lists_on_user_id"
+  end
+
+  create_table "games_session_list", force: :cascade do |t|
+    t.boolean "subscribe", default: false
+    t.bigint "user_id", null: false
+    t.bigint "game_session_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_session_id"], name: "index_games_session_list_on_game_session_id"
+    t.index ["user_id"], name: "index_games_session_list_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -97,13 +97,13 @@ ActiveRecord::Schema.define(version: 2022_04_27_093249) do
   end
 
   add_foreign_key "chatrooms", "game_sessions"
-  add_foreign_key "game_list_games", "games"
-  add_foreign_key "game_list_games", "games_lists"
-  add_foreign_key "game_session_lists", "game_sessions"
-  add_foreign_key "game_session_lists", "users"
   add_foreign_key "game_sessions", "games"
   add_foreign_key "game_sessions", "users"
+  add_foreign_key "games_list_game", "games"
+  add_foreign_key "games_list_game", "games_lists"
   add_foreign_key "games_lists", "users"
+  add_foreign_key "games_session_list", "game_sessions"
+  add_foreign_key "games_session_list", "users"
   add_foreign_key "messages", "chatrooms"
   add_foreign_key "messages", "users"
 end
