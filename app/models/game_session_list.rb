@@ -1,2 +1,0 @@
-class GameSessionList < ApplicationRecord
-end

@@ -1,2 +1,0 @@
-class GameListGame < ApplicationRecord
-end
