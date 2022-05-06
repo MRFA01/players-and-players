@@ -1,0 +1,8 @@
+<div class="container list_session">
+  <% @games_session_lists.each do |list| %>
+    <% session = list.game_session_id %>
+    <%= link_to games_session_path(session) do %>
+      <i class="fas fa-comments"></i> <%= session.game.name + ' ' + session.date.to_s %>
+    <% end %>
+  <% end %>
+</div>
