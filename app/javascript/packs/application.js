@@ -7,6 +7,7 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+require("jquery")
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -16,5 +17,22 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import "controllers"
-import "bootstrap"
+
+// ----------------------------------------------------
+// Note(lewagon): ABOVE IS RAILS DEFAULT CONFIGURATION
+// WRITE YOUR OWN JS STARTING FROM HERE 👇
+// ----------------------------------------------------
+
+// External imports
+import "bootstrap";
+
+// Internal imports, e.g:
+import { initChatroomCable } from '../channels/chatroom_channel';
+import { initSelect2 } from '../components/init_select2';
+
+document.addEventListener('turbolinks:load', () => {
+  // Call your functions here, e.g:
+
+  initSelect2();
+  initChatroomCable();
+  });
