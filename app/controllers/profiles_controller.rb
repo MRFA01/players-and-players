@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :verify_policy_scoped, only: %i[edit update]
 
+  
   def new
     @profile = current_user
     authorize @profile
