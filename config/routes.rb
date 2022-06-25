@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   resources :profiles, only: %i[new create]
-  resources :dashboards, only: %i[index]
+  resources :dashboards, only: %i[index show]
   resources :game_sessions, only: %i[show index new create edit destroy]
   resources :games_session_lists, only: %i[index new create available destroy]
   patch "games_session_lists/:id/available", to: "games_session_lists#available", as: :available
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :games, only: %i[index show]
   resources :games_lists
   get "my_games_list", to: "games_lists#my_games_list", as: :my_games_list
-  
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :profiles, only: %i[new create]
   resources :dashboards, only: %i[index]
